@@ -11,9 +11,9 @@ namespace Predator_prey_model_WindowsFormsApp
         public static double[,] ArrayVP(double sourceV, double sourceP, int t, double h)
         {
             double a = 0.1;
-            double b = 0.001;
+            double b = 0.0005;
             double c = 0.05;
-            double d = 0.00005;
+            double d = 0.0001;
 
             double k1_V, k2_V, k3_V, k4_V, k1_P, k2_P, k3_P, k4_P;
 
