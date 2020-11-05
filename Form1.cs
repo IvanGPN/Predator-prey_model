@@ -24,23 +24,40 @@ namespace Predator_prey_model_WindowsFormsApp
             int predator = 100; //хищники
             int prey = 500; //жертвы
 
-            if (txtBoxStep.Text != String.Empty)
-                step = Convert.ToDouble(txtBoxStep.Text);
+            try
+            {
+                if (txtBoxStep.Text != String.Empty)
+                    step = Convert.ToDouble(txtBoxStep.Text);
 
-            if (txtBoxPopulation.Text != String.Empty)
-                population = Convert.ToInt32(txtBoxPopulation.Text);
+                if (txtBoxPopulation.Text != String.Empty)
+                    population = Convert.ToInt32(txtBoxPopulation.Text);
 
-            if (txtBoxPredator.Text != String.Empty)
-                predator = Convert.ToInt32(txtBoxPredator.Text);
+                if (txtBoxPredator.Text != String.Empty)
+                    predator = Convert.ToInt32(txtBoxPredator.Text);
 
-            if (txtBoxPrey.Text != String.Empty)
-                prey = Convert.ToInt32(txtBoxPrey.Text);
+                if (txtBoxPrey.Text != String.Empty)
+                    prey = Convert.ToInt32(txtBoxPrey.Text);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            
 
             try
             {
                 double[,] arrayForChart = HandlerClass.ArrayVP(prey, predator, population, step);
 
-                chart.Series[0].Points.Clear();
+                for (int i = 1; i < population - 1; i++)
+                {
+                    if (double.IsNaN(arrayForChart[0, i]) || double.IsNaN(arrayForChart[1, i]))
+                    {
+                        MessageBox.Show("Большие значения");
+                        return;
+                    }
+                }
+
+                    chart.Series[0].Points.Clear();
                 chart.Series[1].Points.Clear();
                 chartDynamic.Series[0].Points.Clear();
 
@@ -51,6 +68,22 @@ namespace Predator_prey_model_WindowsFormsApp
                 chart.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
                 chart.Series[1].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
                 chartDynamic.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+
+                if (arrayForChart.Cast<double>().Max() < 9999999)
+                {
+                    chart.ChartAreas[0].AxisX.Interval = arrayForChart.Cast<double>().Max();
+                    chartDynamic.ChartAreas[0].AxisX.Interval = arrayForChart.Cast<double>().Max();
+                    chart.ChartAreas[0].AxisY.Interval = arrayForChart.Cast<double>().Max();
+                    chartDynamic.ChartAreas[0].AxisY.Interval = arrayForChart.Cast<double>().Max();
+                }
+                else
+                {
+                    chart.ChartAreas[0].AxisX.Interval = 9999999;
+                    chartDynamic.ChartAreas[0].AxisX.Interval = 9999999;
+                    chart.ChartAreas[0].AxisY.Interval = 9999999;
+                    chartDynamic.ChartAreas[0].AxisY.Interval = 9999999;
+                }
+                
 
                 for (int i = 1; i < population - 1; i++)
                 {

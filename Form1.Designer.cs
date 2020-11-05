@@ -68,9 +68,11 @@
             this.chart.Location = new System.Drawing.Point(6, 6);
             this.chart.Name = "chart";
             series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series1.Legend = "Legend1";
             series1.Name = "Жертва";
             series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
             series2.Legend = "Legend1";
             series2.Name = "Хищник";
             this.chart.Series.Add(series1);
